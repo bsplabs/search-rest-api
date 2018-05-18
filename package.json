@@ -1,17 +1,27 @@
 {
-  "name": "SearchAPI",
+  "name": "search-rest-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "sittikorn",
   "license": "ISC",
-  "description": "",
+  "description": "This is webservice that using REST API for comunication. it's develop by nodejs+express and lib etc.",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "mysql": "^2.15.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-sittikorn/search-rest-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/p-sittikorn/search-rest-api/issues"
+  },
+  "homepage": "https://github.com/p-sittikorn/search-rest-api#readme"
 }

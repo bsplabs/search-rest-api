@@ -23,6 +23,8 @@ var pool      =    mysql.createPool({
      {
          if (err)
          {
+           // ถ้าไม่เปิดการเชื่อมต่อ DB Sever จะเกิด Error ตรงนี้
+           // ตอนที่ผู้เขียนทดสอบ ใช้ WAMP Server ในการเปิดปิด service ที่เกี่ยวข้องเหล่านี้
            connection.release();
            res.json({"code" : 100, "status" : "Error in connection database"});
            return;
@@ -77,7 +79,7 @@ var pool      =    mysql.createPool({
        if (k[i] == "location" && k[i+1] == "radius")
        {
          var arr = v[i].split(",")
-         sql += ", (3959 *acos(cos(radians(26.4664612)) * cos(radians(latitude)) * cos(radians(longitude) - radians(80.3474503)) + sin(radians(26.4664612)) * sin(radians(latitude)))) AS `distance` ";
+         sql += ", (3959 *acos(cos(radians(" + arr[0] + ")) * cos(radians(latitude)) * cos(radians(longitude) - radians(" + arr[1] + ")) + sin(radians(" + arr[0] + ")) * sin(radians(latitude)))) AS `distance` ";
          lr = true;
          rd = v[i+1];
 
