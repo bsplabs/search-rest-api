@@ -1,2 +1,2 @@
 # TEST Volume 3
-This is webservic that using REST API for comunication. it's develop by nodejs+express amd lib etc.
+This is webservice that using REST API for comunication. it's develop by nodejs+express and lib etc.
