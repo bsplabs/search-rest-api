@@ -6,6 +6,8 @@ const app = express()
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
+// แก้ไขปัญหาเมื่อมีการเชื่อม DB หลายๆครั้ง
 var pool      =    mysql.createPool({
      connectionLimit : 100,
      host     : 'localhost',
@@ -45,23 +47,26 @@ var pool      =    mysql.createPool({
    });
  }
 
+
  app.get("/",function(req,res){-
          res.send("Hello <br> GET API With /api/?.....")
  });
 
+
  app.get("/api/", function(req,res){
 
+     // แปลง Object ของ Query string ให้เป็น Array
      var k = Object.keys(req.query)
      var v = Object.values(req.query)
 
-     var lr = false;
+     var lr = false;  // เช็คเมื่อเจอ parameter ที่เป็น Location และ Radius
      var rd = 0;
-     var checkWhere = false;
+     var checkWhere = false; // สำหรับเช็คการต่อคำสั่ง FROM properties WHERE ให้กับ sql
 
+     // กำหนดค่าเริ่มต้นสำหรับคำสั่ง SQL
      var sql = "SELECT * ";
      var And = " AND "
 
-     var newK = 0;
      var i;
      for(i = 0 ; i < k.length ; i++)
      {
@@ -75,6 +80,8 @@ var pool      =    mysql.createPool({
          sql += ", (3959 *acos(cos(radians(26.4664612)) * cos(radians(latitude)) * cos(radians(longitude) - radians(80.3474503)) + sin(radians(26.4664612)) * sin(radians(latitude)))) AS `distance` ";
          lr = true;
          rd = v[i+1];
+
+         // ลบอาเรย์ที่เจอออกไป เพราะว่า เราได้เซตคำสั่ง sql ให้กับตัว location กับ radius เเล้ว
          k.splice(i, 2);
          v.splice(i, 2);
        }
@@ -82,7 +89,8 @@ var pool      =    mysql.createPool({
 
      for(i = 0 ; i < k.length ; i++)
      {
-       if (lr == true && (k[i] == "location" || k[i] == "radius")) {
+       if (lr == true && (k[i] == "location" || k[i] == "radius"))
+        {
          continue;
        }
        // ถ้าเป็นชุด query สุดท้าย ไม่ต้องเติม AND ต่อท้ายมัน
