@@ -75,13 +75,13 @@ var pool      =    mysql.createPool({
 
        // ตัวแปร arr คือค่า Location {lat,long} ของเรา
        // จะค้นหาเฉพาะ url ->  /api/?location=12.2,1223&radius=x;
-       // arr[0] --> lat , arr[0] --> long
+       // arr[0] --> lat , arr[1] --> long
        if (k[i] == "location" && k[i+1] == "radius")
        {
          var arr = v[i].split(",")
          sql += ", (3959 *acos(cos(radians(" + arr[0] + ")) * cos(radians(latitude)) * cos(radians(longitude) - radians(" + arr[1] + ")) + sin(radians(" + arr[0] + ")) * sin(radians(latitude)))) AS `distance` ";
          lr = true;
-         rd = v[i+1];
+         rd = v[i+1]; //เก็บค่ารัศรอบ เพื่อใช้ดึงข้อมูลโรงเเรม ที่อยู่ในรัศมีที่กำหนดมาใน url query
 
          // ลบอาเรย์ที่เจอออกไป เพราะว่า เราได้เซตคำสั่ง sql ให้กับตัว location กับ radius เเล้ว
          k.splice(i, 2);
